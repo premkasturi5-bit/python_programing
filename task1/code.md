@@ -2,7 +2,7 @@ Here is a complete, production-ready solution for **Inventory Matrix Reconciliat
 
 ---
 
-### ## 1. Problem Statement
+ 1. Problem Statement
 
 Managing inventory across a multi-warehouse network often leads to localized imbalances where some warehouses hold excess stock (surpluses) while others face deficits (shortages).
 
@@ -11,8 +11,7 @@ Given current stock quantities and specified target stock levels for multiple pr
 * **Objective:** Compare current vs. target stock levels, identify surpluses and shortages per warehouse-product pair, and generate an optimal inter-warehouse transfer plan to meet all stock targets efficiently.
 
 ---
-
-### ## 2. Algorithm
+2. Algorithm
 
 1. **Initialize Inputs:** Accept lists of `warehouses`, `products`, and 2D matrices for `current_stock` and `target_stock`.
 2. **Reconciliation Pass:**
@@ -26,7 +25,7 @@ Given current stock quantities and specified target stock levels for multiple pr
 
 
 
-3. **Transfer Calculation (Greedy Matching per Product):**
+3. Transfer Calculation (Greedy Matching per Product):
 * For each product, group all surplus sources and shortage destinations.
 * Sequentially match surplus warehouses to shortage warehouses:
 * Transfer quantity = $\min(\text{available surplus}, \text{required shortage})$.
@@ -36,11 +35,11 @@ Given current stock quantities and specified target stock levels for multiple pr
 
 
 
-4. **Output Generation:** Present the reconciliation status matrix and the itemized transfer schedule.
+4. Output Generation: Present the reconciliation status matrix and the itemized transfer schedule.
 
 ---
 
-### ## 3. Flowchart (Mermaid)
+3. Flowchart (Mermaid)
 
 ```mermaid
 flowchart TD
@@ -70,7 +69,7 @@ flowchart TD
 
 ---
 
-### ## 4. Python Source Code
+ 4. Python Source Code
 
 ```python
 def reconcile_inventory(warehouses, products, current_stock, target_stock):
@@ -176,7 +175,7 @@ if __name__ == "__main__":
 
 ---
 
-### ## 5. Sample Input
+ 5. Sample Input
 
 * **Warehouses:** `["Warehouse A", "Warehouse B", "Warehouse C"]`
 * **Products:** `["Laptop", "Monitor", "Keyboard"]`
@@ -193,7 +192,7 @@ $$\begin{bmatrix} 30 & 30 & 60 \\ 30 & 30 & 60 \\ 30 & 30 & 60 \end{bmatrix}$$
 
 ---
 
-### ## 6. Sample Output
+6. Sample Output
 
 ```text
 === RECONCILIATION SUMMARY ===
