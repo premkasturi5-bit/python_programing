@@ -2,19 +2,19 @@ Here is the complete solution for the **Sports Tournament Ranking System**, prov
 
 ---
 
-### ## 1. Problem Statement
+ 1. Problem Statement
 
 Managing a sports league requires tracking match outcomes, computing standings, and ranking teams accurately.
 
 Given a list of participating teams and individual match scores (Home Team, Away Team, Home Score, Away Score):
 
-* **Objective:** Process all match results, calculate overall match statistics (Played, Won, Drawn, Lost, Goals For, Goals Against, Goal Difference, Points), apply standard competition tie-break rules, and generate final tournament rankings.
+Objective:** Process all match results, calculate overall match statistics (Played, Won, Drawn, Lost, Goals For, Goals Against, Goal Difference, Points), apply standard competition tie-break rules, and generate final tournament rankings.
 
 ---
 
-### ## 2. Algorithm
+ 2. Algorithm
 
-1. **Initialize Statistics:** Create a data structure for each team with starting values set to zero for points and match records.
+1. Initialize Statistics:** Create a data structure for each team with starting values set to zero for points and match records.
 2. **Process Match Results:** Loop through each match record:
 * Increment matches played for both teams.
 * Update goals scored and goals conceded for both teams.
