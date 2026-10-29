@@ -2,37 +2,36 @@ Here is the complete solution for the **Sports Tournament Ranking System**, stru
 
 ---
 
-### ## 1. Problem Statement
+ 1. Problem Statement
 
 Managing a sports league requires tracking match outcomes, computing standings, and ranking teams accurately.
 
 Given a list of participating teams and individual match scores (Home Team, Away Team, Home Score, Away Score):
-
-* **Objective:** Process all match results, calculate overall match statistics (Played, Won, Drawn, Lost, Goals For, Goals Against, Goal Difference, Points), apply standard competition tie-break rules, and generate final tournament rankings.
+Objective: Process all match results, calculate overall match statistics (Played, Won, Drawn, Lost, Goals For, Goals Against, Goal Difference, Points), apply standard competition tie-break rules, and generate final tournament rankings.
 
 ---
 
-### ## 2. Algorithm
+ 2. Algorithm
 
-1. **Initialize Statistics:** Create a data structure for each team with starting values set to zero for points and stats.
-2. **Process Match Results:** Loop through each match record:
+1. Initialize Statistics: Create a data structure for each team with starting values set to zero for points and stats.
+2. Process Match Results: Loop through each match record:
 * Increment matches played (`P`) for both teams.
 * Update goals scored (`GF`) and goals conceded (`GA`) for both teams.
 * Determine the outcome: assign 3 points for a win, 1 point for a draw, and 0 points for a loss, updating win/loss/draw counters accordingly.
 
 
-3. **Calculate Tie-Breakers:** Compute Goal Difference (`GD = GF - GA`) for each team.
-4. **Sort and Rank:** Sort teams using primary and secondary ranking policies:
+3. Calculate Tie-Breakers: Compute Goal Difference (`GD = GF - GA`) for each team.
+4. Sort and Rank: Sort teams using primary and secondary ranking policies:
 * Primary: Total Points (`Pts`) descending.
 * Secondary: Goal Difference (`GD`) descending.
 * Tertiary: Goals For (`GF`) descending.
 
 
-5. **Output Standings:** Assign sequential ranks and display the sorted table.
+5. Output Standings:Assign sequential ranks and display the sorted table.
 
 ---
 
-### ## 3. Flowchart (Mermaid)
+ 3. Flowchart (Mermaid)
 
 ```mermaid
 flowchart TD
@@ -53,7 +52,7 @@ flowchart TD
 
 ---
 
-### ## 4. Python Source Code
+ 4. Python Source Code
 
 ```python
 def calculate_rankings(teams, matches):
@@ -130,7 +129,7 @@ if __name__ == "__main__":
 
 ---
 
-### ## 5. Sample Input
+ 5. Sample Input
 
 * **Teams:** `["Team Alpha", "Team Beta", "Team Gamma", "Team Delta"]`
 * **Matches `(Home Team, Away Team, Home Score, Away Score)`:**
@@ -150,7 +149,7 @@ if __name__ == "__main__":
 
 ---
 
-### ## 6. Sample Output
+ 6. Sample Output
 
 ```text
 Rank | Team       | P | W | D | L | GF | GA | GD | Pts
