@@ -32,7 +32,7 @@ Objective:** Process all match results, calculate overall match statistics (Play
 
 ---
 
-### ## 3. Flowchart (Mermaid)
+ 3. Flowchart (Mermaid)
 
 ```mermaid
 flowchart TD
