@@ -15,20 +15,20 @@ Objective:** Process all match results, calculate overall match statistics (Play
  2. Algorithm
 
 1. Initialize Statistics:** Create a data structure for each team with starting values set to zero for points and match records.
-2. **Process Match Results:** Loop through each match record:
+2. Process Match Results: Loop through each match record:
 * Increment matches played for both teams.
 * Update goals scored and goals conceded for both teams.
 * Determine the outcome: assign 3 points for a win, 1 point for a draw, and 0 points for a loss, updating win/loss/draw counters accordingly.
 
 
-3. **Calculate Tie-Breakers:** Compute Goal Difference (`GD = GF - GA`) for each team.
-4. **Sort and Rank:** Sort teams using primary and secondary ranking policies:
+3. Calculate Tie-Breakers: Compute Goal Difference (`GD = GF - GA`) for each team.
+4. Sort and Rank: Sort teams using primary and secondary ranking policies:
 * Primary: Total Points (`Pts`) descending.
 * Secondary: Goal Difference (`GD`) descending.
 * Tertiary: Goals For (`GF`) descending.
 
 
-5. **Output Standings:** Assign sequential ranks and display the sorted table.
+5. Output Standings: Assign sequential ranks and display the sorted table.
 
 ---
 
@@ -53,7 +53,7 @@ flowchart TD
 
 ---
 
-### ## 4. Python Source Code
+ 4. Python Source Code
 
 ```python
 def calculate_rankings(teams, matches):
@@ -130,10 +130,9 @@ if __name__ == "__main__":
 
 ---
 
-### ## 5. Sample Input
-
-* **Teams:** `["Team Alpha", "Team Beta", "Team Gamma", "Team Delta"]`
-* **Matches `(Home Team, Away Team, Home Score, Away Score)`:**
+ 5. Sample Input
+Teams: `["Team Alpha", "Team Beta", "Team Gamma", "Team Delta"]`
+Matches `(Home Team, Away Team, Home Score, Away Score)`:**
 ```python
 [
     ("Team Alpha", "Team Beta", 2, 1),
@@ -150,7 +149,7 @@ if __name__ == "__main__":
 
 ---
 
-### ## 6. Sample Output
+ 6. Sample Output
 
 ```text
 Rank | Team       | P | W | D | L | GF | GA | GD | Pts
