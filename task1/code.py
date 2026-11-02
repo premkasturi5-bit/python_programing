@@ -1,94 +1,60 @@
-def reconcile_inventory(warehouses, products, current_stock, target_stock):
-    """
-    Reconciles inventory across warehouses and calculates required transfers.
-    """
-    num_warehouses = len(warehouses)
-    num_products = len(products)
+def analyze_environment_data(data, thresholds):
+    total_sum = 0
+    total_count = 0
+    global_max = float('-inf')
+    global_min = float('inf')
     
-    reconciliation_results = []
-    transfer_plan = []
-    for j in range(num_products):
-        product_name = products[j]
-        surpluses = []
-        shortages = []
+    classified_results = []
+    station_averages = []
+    
+    for station_index, station in enumerate(data):
+        station_sum = 0
+        station_count = len(station)
+        station_classifications = []
         
-        for i in range(num_warehouses):
-            wh_name = warehouses[i]
-            curr = current_stock[i][j]
-            targ = target_stock[i][j]
-            diff = curr - targ
+        for val in station:
+            total_sum += val
+            total_count += 1
             
-            status = "Balanced"
-            if diff > 0:
-                status = "Surplus"
-                surpluses.append({"warehouse": wh_name, "amount": diff})
-            elif diff < 0:
-                status = "Shortage"
-                shortages.append({"warehouse": wh_name, "amount": abs(diff)})
+            if val > global_max:
+                global_max = val
+            if val < global_min:
+                global_min = val
                 
-            reconciliation_results.append({
-                "warehouse": wh_name,
-                "product": product_name,
-                "current": curr,
-                "target": targ,
-                "difference": diff,
-                "status": status
-            })
-          
-        active_surpluses = [s.copy() for s in surpluses]
-        active_shortages = [sh.copy() for sh in shortages]
+            station_sum += val
+            
+            if val <= thresholds['good']:
+                status = "Good"
+            elif val <= thresholds['moderate']:
+                status = "Moderate"
+            else:
+                status = "Unhealthy"
+                
+            station_classifications.append((val, status))
         
-        s_idx, sh_idx = 0, 0
-        while s_idx < len(active_surpluses) and sh_idx < len(active_shortages):
-            surplus_item = active_surpluses[s_idx]
-            shortage_item = active_shortages[sh_idx]
-            
-            transfer_qty = min(surplus_item["amount"], shortage_item["amount"])
-            
-            if transfer_qty > 0:
-                transfer_plan.append({
-                    "product": product_name,
-                    "from_warehouse": surplus_item["warehouse"],
-                    "to_warehouse": shortage_item["warehouse"],
-                    "quantity": transfer_qty
-                })
-                
-            surplus_item["amount"] -= transfer_qty
-            shortage_item["amount"] -= transfer_qty
-            
-            if surplus_item["amount"] == 0:
-                s_idx += 1
-            if shortage_item["amount"] == 0:
-                sh_idx += 1
-                
-    return reconciliation_results, transfer_plan
-
+        avg_station = (station_sum / station_count) if station_count > 0 else 0
+        station_averages.append((station_index, avg_station))
+        classified_results.append(station_classifications)
+        
+    global_avg = (total_sum / total_count) if total_count > 0 else 0
+    
+    return {
+        "global_average": global_avg,
+        "global_maximum": global_max,
+        "global_minimum": global_min,
+        "station_averages": station_averages,
+        "classified_observations": classified_results
+    }
 
 if __name__ == "__main__":
-    warehouses = ["Warehouse A", "Warehouse B", "Warehouse C"]
-    products = ["Laptop", "Monitor", "Keyboard"]
-    
-   
-    current_stock = [
-        [50, 20, 100], 
-        [10, 40, 30],  
-        [30, 30, 50]   
+    sample_data = [
+        [35.5, 42.0, 58.2],
+        [15.1, 22.4, 19.8],
+        [85.0, 92.5, 110.0]
     ]
-    
-    target_stock = [
-        [30, 30, 60],  
-        [30, 30, 60],  
-        [30, 30, 60]  
-    ]
-    
-    results, transfers = reconcile_inventory(warehouses, products, current_stock, target_stock)
-    
-    print("=== RECONCILIATION SUMMARY ===")
-    for r in results:
-        print(f"[{r['warehouse']}] Product: {r['product']} | Current: {r['current']} | Target: {r['target']} | Diff: {r['difference']:+d} ({r['status']})")
-        
-    print("\n=== REQUIRED TRANSFER PLAN ===")
-    if not transfers:
-        print("No transfers needed. All warehouses meet target stock.")
-    for t in transfers:
-        print(f"👉 Transfer {t['quantity']} units of {t['product']} from {t['from_warehouse']} ➔ {t['to_warehouse']}")
+    sample_thresholds = {
+        "good": 50.0,
+        "moderate": 100.0
+    }
+    results = analyze_environment_data(sample_data, sample_thresholds)
+    print(results)
