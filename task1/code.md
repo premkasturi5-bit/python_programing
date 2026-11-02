@@ -1,76 +1,158 @@
-# Environmental Monitoring Data Analyzer
+## Problem Statement
 
-## 1. Problem Statement
+Design a program that analyzes nested lists of environmental monitoring data (such as PM2.5 air-quality readings across multiple monitoring stations or time intervals). The program must calculate global and station-specific averages, identify extreme values (minimum and maximum readings), and classify each individual observation into predefined categories (e.g., Good, Moderate, Unhealthy) based on supplied threshold values.
 
-Environmental Monitoring Data Analyzer is used to analyze air-quality or water-quality readings collected from different locations. Using nested lists (2D matrices), the program calculates the average, maximum, and minimum readings. It also classifies observations as Safe, Moderate, or Dangerous based on the supplied threshold values.
+---
 
-## 2. Algorithm
+## Algorithm
 
-1. Start the program.
-2. Initialize location names and environmental readings using nested lists.
-3. Enter the threshold values.
-4. Calculate the average reading for each location.
-5. Find the minimum and maximum readings.
-6. Compare each reading with the threshold values.
-7. Classify readings as Safe, Moderate, or Dangerous.
-8. Display the average, minimum, maximum, and classification.
-9. Stop the program.
+1. **Initialize** variables to store the global sum, global count, global maximum (`-inf`), and global minimum (`inf`).
+2. **Accept** a nested list of numerical readings and a dictionary of threshold values.
+3. **Iterate** through each sublist (station) in the nested list:
+* Initialize a local sum for the current station.
+* Iterate through each reading within the station:
+* Add the reading to the global sum and increment the global count.
+* Update the global maximum and minimum if applicable.
+* Add the reading to the station sum.
+* Compare the reading against the thresholds (`good`, `moderate`) to assign a classification label.
 
-## 3. Flowchart (Mermaid Code)
 
-\#chatgpt-mermaid-\_r_cq\_{font-family:-apple-system-body,ui-sans-serif,-apple-system,system-ui,"Segoe UI",Helvetica,"Apple Color Emoji",Arial,sans-serif,"Segoe UI Emoji","Segoe UI Symbol";font-size:16px;fill:rgb(237, 237, 237);}@keyframes edge-animation-frame{from{stroke-dashoffset:0;}}@keyframes dash{to{stroke-dashoffset:0;}}#chatgpt-mermaid-\_r_cq\_ .edge-animation-slow{stroke-dasharray:9,5!important;stroke-dashoffset:900;animation:dash 50s linear infinite;stroke-linecap:round;}#chatgpt-mermaid-\_r_cq\_ .edge-animation-fast{stroke-dasharray:9,5!important;stroke-dashoffset:900;animation:dash 20s linear infinite;stroke-linecap:round;}#chatgpt-mermaid-\_r_cq\_ .error-icon{fill:rgb(48, 48, 48);}#chatgpt-mermaid-\_r_cq\_ .error-text{fill:rgb(237, 237, 237);stroke:rgb(237, 237, 237);}#chatgpt-mermaid-\_r_cq\_ .edge-thickness-normal{stroke-width:1px;}#chatgpt-mermaid-\_r_cq\_ .edge-thickness-thick{stroke-width:3.5px;}#chatgpt-mermaid-\_r_cq\_ .edge-pattern-solid{stroke-dasharray:0;}#chatgpt-mermaid-\_r_cq\_ .edge-thickness-invisible{stroke-width:0;fill:none;}#chatgpt-mermaid-\_r_cq\_ .edge-pattern-dashed{stroke-dasharray:3;}#chatgpt-mermaid-\_r_cq\_ .edge-pattern-dotted{stroke-dasharray:2;}#chatgpt-mermaid-\_r_cq\_ .marker{fill:rgb(175, 175, 175);stroke:rgb(175, 175, 175);}#chatgpt-mermaid-\_r_cq\_ .marker.cross{stroke:rgb(175, 175, 175);}#chatgpt-mermaid-\_r_cq\_ svg{font-family:-apple-system-body,ui-sans-serif,-apple-system,system-ui,"Segoe UI",Helvetica,"Apple Color Emoji",Arial,sans-serif,"Segoe UI Emoji","Segoe UI Symbol";font-size:16px;}#chatgpt-mermaid-\_r_cq\_ p{margin:0;}#chatgpt-mermaid-\_r_cq\_ .label{font-family:-apple-system-body,ui-sans-serif,-apple-system,system-ui,"Segoe UI",Helvetica,"Apple Color Emoji",Arial,sans-serif,"Segoe UI Emoji","Segoe UI Symbol";color:rgb(237, 237, 237);}#chatgpt-mermaid-\_r_cq\_ .cluster-label text{fill:rgb(237, 237, 237);}#chatgpt-mermaid-\_r_cq\_ .cluster-label span{color:rgb(237, 237, 237);}#chatgpt-mermaid-\_r_cq\_ .cluster-label span p{background-color:transparent;}#chatgpt-mermaid-\_r_cq\_ .label text,#chatgpt-mermaid-\_r_cq\_ span{fill:rgb(237, 237, 237);color:rgb(237, 237, 237);}#chatgpt-mermaid-\_r_cq\_ .node rect,#chatgpt-mermaid-\_r_cq\_ .node circle,#chatgpt-mermaid-\_r_cq\_ .node ellipse,#chatgpt-mermaid-\_r_cq\_ .node polygon,#chatgpt-mermaid-\_r_cq\_ .node path{fill:rgb(9, 23, 44);stroke:rgb(31, 78, 148);stroke-width:1px;}#chatgpt-mermaid-\_r_cq\_ .rough-node .label text,#chatgpt-mermaid-\_r_cq\_ .node .label text,#chatgpt-mermaid-\_r_cq\_ .image-shape .label,#chatgpt-mermaid-\_r_cq\_ .icon-shape .label{text-anchor:middle;}#chatgpt-mermaid-\_r_cq\_ .node .katex path{fill:#000;stroke:#000;stroke-width:1px;}#chatgpt-mermaid-\_r_cq\_ .rough-node .label,#chatgpt-mermaid-\_r_cq\_ .node .label,#chatgpt-mermaid-\_r_cq\_ .image-shape .label,#chatgpt-mermaid-\_r_cq\_ .icon-shape .label{text-align:center;}#chatgpt-mermaid-\_r_cq\_ .node.clickable{cursor:pointer;}#chatgpt-mermaid-\_r_cq\_ .root .anchor path{fill:rgb(175, 175, 175)!important;stroke-width:0;stroke:rgb(175, 175, 175);}#chatgpt-mermaid-\_r_cq\_ .arrowheadPath{fill:rgb(175, 175, 175);}#chatgpt-mermaid-\_r_cq\_ .edgePath .path{stroke:rgb(175, 175, 175);stroke-width:1px;}#chatgpt-mermaid-\_r_cq\_ .flowchart-link{stroke:rgb(175, 175, 175);fill:none;}#chatgpt-mermaid-\_r_cq\_ .edgeLabel{background-color:rgb(0, 0, 0);text-align:center;}#chatgpt-mermaid-\_r_cq\_ .edgeLabel p{background-color:rgb(0, 0, 0);}#chatgpt-mermaid-\_r_cq\_ .edgeLabel rect{opacity:0.5;background-color:rgb(0, 0, 0);fill:rgb(0, 0, 0);}#chatgpt-mermaid-\_r_cq\_ .labelBkg{background-color:rgba(0, 0, 0, 0.5);}#chatgpt-mermaid-\_r_cq\_ .cluster rect{fill:rgb(48, 48, 48);stroke:rgba(255, 255, 255, 0.15);stroke-width:1px;}#chatgpt-mermaid-\_r_cq\_ .cluster text{fill:rgb(237, 237, 237);}#chatgpt-mermaid-\_r_cq\_ .cluster span{color:rgb(237, 237, 237);}#chatgpt-mermaid-\_r_cq\_ div.mermaidTooltip{position:absolute;text-align:center;max-width:200px;padding:2px;font-family:-apple-system-body,ui-sans-serif,-apple-system,system-ui,"Segoe UI",Helvetica,"Apple Color Emoji",Arial,sans-serif,"Segoe UI Emoji","Segoe UI Symbol";font-size:12px;background:rgb(48, 48, 48);border:1px solid rgba(255, 255, 255, 0.15);border-radius:2px;pointer-events:none;z-index:100;}#chatgpt-mermaid-\_r_cq\_ .flowchartTitleText{text-anchor:middle;font-size:18px;fill:rgb(237, 237, 237);}#chatgpt-mermaid-\_r_cq\_ rect.text{fill:none;stroke-width:0;}#chatgpt-mermaid-\_r_cq\_ .icon-shape,#chatgpt-mermaid-\_r_cq\_ .image-shape{background-color:rgb(0, 0, 0);text-align:center;}#chatgpt-mermaid-\_r_cq\_ .icon-shape p,#chatgpt-mermaid-\_r_cq\_ .image-shape p{background-color:rgb(0, 0, 0);padding:2px;}#chatgpt-mermaid-\_r_cq\_ .icon-shape .label rect,#chatgpt-mermaid-\_r_cq\_ .image-shape .label rect{opacity:0.5;background-color:rgb(0, 0, 0);fill:rgb(0, 0, 0);}#chatgpt-mermaid-\_r_cq\_ .label-icon{display:inline-block;height:1em;overflow:visible;vertical-align:-0.125em;}#chatgpt-mermaid-\_r_cq\_ .node .label-icon path{fill:currentColor;stroke:revert;stroke-width:revert;}#chatgpt-mermaid-\_r_cq\_ .node .neo-node{stroke:rgb(31, 78, 148);}#chatgpt-mermaid-\_r_cq\_ [data-look="neo"].node rect,#chatgpt-mermaid-\_r_cq\_ [data-look="neo"].cluster rect,#chatgpt-mermaid-\_r_cq\_ [data-look="neo"].node polygon{stroke:url(#chatgpt-mermaid-\_r_cq\_-gradient);filter:drop-shadow( 1px 2px 2px rgba(185,185,185,1));}#chatgpt-mermaid-\_r_cq\_ [data-look="neo"].swimlane.cluster rect{filter:none;}#chatgpt-mermaid-\_r_cq\_ [data-look="neo"].node path{stroke:url(#chatgpt-mermaid-\_r_cq\_-gradient);stroke-width:1px;}#chatgpt-mermaid-\_r_cq\_ [data-look="neo"].node .outer-path{filter:drop-shadow( 1px 2px 2px rgba(185,185,185,1));}#chatgpt-mermaid-\_r_cq\_ [data-look="neo"].node .neo-line path{stroke:rgb(31, 78, 148);filter:none;}#chatgpt-mermaid-\_r_cq\_ [data-look="neo"].node circle{stroke:url(#chatgpt-mermaid-\_r_cq\_-gradient);filter:drop-shadow( 1px 2px 2px rgba(185,185,185,1));}#chatgpt-mermaid-\_r_cq\_ [data-look="neo"].node circle .state-start{fill:#000000;}#chatgpt-mermaid-\_r_cq\_ [data-look="neo"].icon-shape .icon{fill:url(#chatgpt-mermaid-\_r_cq\_-gradient);filter:drop-shadow( 1px 2px 2px rgba(185,185,185,1));}#chatgpt-mermaid-\_r_cq\_ [data-look="neo"].icon-shape .icon-neo path{stroke:url(#chatgpt-mermaid-\_r_cq\_-gradient);filter:drop-shadow( 1px 2px 2px rgba(185,185,185,1));}#chatgpt-mermaid-\_r_cq\_ .node text{font-size:14px;font-weight:600;letter-spacing:normal;fill:rgb(153, 206, 255);}#chatgpt-mermaid-\_r_cq\_ .edgeLabels text{font-size:13px;font-weight:600;letter-spacing:-0.08px;fill:rgb(153, 206, 255);}#chatgpt-mermaid-\_r_cq\_ .node tspan[font-weight="normal"],#chatgpt-mermaid-\_r_cq\_ .edgeLabels tspan[font-weight="normal"]{font-weight:600;}#chatgpt-mermaid-\_r_cq\_ .edgeLabel .label rect{opacity:1;rx:13px;ry:13px;fill:rgb(0, 14, 26);stroke:rgb(26, 62, 95);stroke-width:1px;}#chatgpt-mermaid-\_r_cq\_ .node rect,#chatgpt-mermaid-\_r_cq\_ .node circle,#chatgpt-mermaid-\_r_cq\_ .node ellipse,#chatgpt-mermaid-\_r_cq\_ .node polygon,#chatgpt-mermaid-\_r_cq\_ .node path{fill:rgb(0, 40, 77);stroke:rgba(255, 255, 255, 0.1);stroke-width:1px;}#chatgpt-mermaid-\_r_cq\_ .node rect{rx:16px;ry:16px;}#chatgpt-mermaid-\_r_cq\_ .mermaid-decision .label-container{fill:rgb(0, 14, 26);stroke:rgb(26, 62, 95);stroke-dasharray:2,2;}#chatgpt-mermaid-\_r_cq\_ .edgePaths .flowchart-link{stroke:rgb(175, 175, 175);stroke-width:1px;stroke-linecap:round;stroke-linejoin:round;}#chatgpt-mermaid-\_r_cq\_ .marker{fill:rgb(175, 175, 175);stroke:rgb(175, 175, 175);}#chatgpt-mermaid-\_r_cq\_ :root{--mermaid-font-family:-apple-system-body,ui-sans-serif,-apple-system,system-ui,"Segoe UI",Helvetica,"Apple Color Emoji",Arial,sans-serif,"Segoe UI Emoji","Segoe UI Symbol";}StartInput Location Names andReadingsInput Threshold ValuesInitialize ResultsSelect Each LocationCalculate Average ReadingFind Minimum and MaximumSelect Each ReadingReading <= Safe Limit?Classify as SafeReading <= Moderate Limit?Classify as ModerateClassify as DangerousMore Readings?Display ResultsMore Locations?StopYesNoYesNoYesNoYesNo
+* Compute the station average and store it.
 
-## 4. Python Source Code
+
+4. **Compute** the global average by dividing the total global sum by the global count.
+5. **Return** or display the summary statistics (global average, extremes, station averages) alongside the classified observations.
+
+---
+
+## Flowchart
+
+```mermaid
+flowchart TD
+    A[Start] --> B[Input Nested Readings & Thresholds]
+    B --> C[Initialize Global Stats: Sum, Count, Min, Max]
+    C --> D[Loop through each station sublist]
+    D --> E[Initialize Station Sum & Classification List]
+    E --> F[Loop through each reading in station]
+    F --> G[Update Global Sum, Count, Min, Max]
+    G --> H[Classify reading based on thresholds]
+    H --> I{More readings in station?}
+    I -- Yes --> F
+    I -- No --> J[Calculate Station Average]
+    J --> K{More stations?}
+    K -- Yes --> D
+    K -- No --> L[Calculate Global Average]
+    L --> M[Output Results]
+    M --> N[Stop]
 
 ```
-locations = ["Location A", "Location B", "Location C"]readings = [    [20, 30, 40, 35],    [50, 60, 70, 65],    [80, 90, 100, 95]]safe_limit = 40moderate_limit = 70for i in range(len(locations)):    data = readings[i]    avg = sum(data) / len(data)    minimum = min(data)    maximum = max(data)    print("\nLocation:", locations[i])    print("Average:", avg)    print("Minimum:", minimum)    print("Maximum:", maximum)    for value in data:        if value <= safe_limit:            status = "Safe"        elif value <= moderate_limit:            status = "Moderate"        else:            status = "Dangerous"        print(value, "-", status)
+
+---
+
+## Python Source Code
+
+```python
+def analyze_environment_data(data, thresholds):
+    total_sum = 0
+    total_count = 0
+    global_max = float('-inf')
+    global_min = float('inf')
+    
+    classified_results = []
+    station_averages = []
+    
+    for station_index, station in enumerate(data):
+        station_sum = 0
+        station_count = len(station)
+        station_classifications = []
+        
+        for val in station:
+            total_sum += val
+            total_count += 1
+            
+            if val > global_max:
+                global_max = val
+            if val < global_min:
+                global_min = val
+                
+            station_sum += val
+            
+            if val <= thresholds['good']:
+                status = "Good"
+            elif val <= thresholds['moderate']:
+                status = "Moderate"
+            else:
+                status = "Unhealthy"
+                
+            station_classifications.append((val, status))
+        
+        avg_station = (station_sum / station_count) if station_count > 0 else 0
+        station_averages.append((station_index, avg_station))
+        classified_results.append(station_classifications)
+        
+    global_avg = (total_sum / total_count) if total_count > 0 else 0
+    
+    return {
+        "global_average": global_avg,
+        "global_maximum": global_max,
+        "global_minimum": global_min,
+        "station_averages": station_averages,
+        "classified_observations": classified_results
+    }
+
+if __name__ == "__main__":
+    sample_data = [
+        [35.5, 42.0, 58.2],
+        [15.1, 22.4, 19.8],
+        [85.0, 92.5, 110.0]
+    ]
+    sample_thresholds = {
+        "good": 50.0,
+        "moderate": 100.0
+    }
+    results = analyze_environment_data(sample_data, sample_thresholds)
+    print(results)
+
 ```
 
-## 5. Sample Input
+---
+
+## Sample Input
+
+```json
+{
+  "data": [
+    [35.5, 42.0, 58.2],
+    [15.1, 22.4, 19.8],
+    [85.0, 92.5, 110.0]
+  ],
+  "thresholds": {
+    "good": 50.0,
+    "moderate": 100.0
+  }
+}
 
 ```
-Locations: Location A, Location B, Location C
 
-Readings:
-[
- [20, 30, 40, 35],
- [50, 60, 70, 65],
- [80, 90, 100, 95]
-]
+---
 
-Safe Limit: 40
-Moderate Limit: 70
+## Sample Output
+
+```json
+{
+  "global_average": 53.388888888888886,
+  "global_maximum": 110.0,
+  "global_minimum": 15.1,
+  "station_averages": [
+    [0, 45.233333333333334],
+    [1, 19.1],
+    [2, 95.83333333333333]
+  ],
+  "classified_observations": [
+    [[35.5, "Good"], [42.0, "Good"], [58.2, "Moderate"]],
+    [[15.1, "Good"], [22.4, "Good"], [19.8, "Good"]],
+    [[85.0, "Moderate"], [92.5, "Moderate"], [110.0, "Unhealthy"]]
+  ]
+}
+
 ```
-
-## 6. Sample Output
-
-```
-Location: Location A
-Average: 31.25
-Minimum: 20
-Maximum: 40
-20 - Safe
-30 - Safe
-40 - Safe
-35 - Safe
-
-Location: Location B
-Average: 61.25
-Minimum: 50
-Maximum: 70
-50 - Moderate
-60 - Moderate
-70 - Moderate
-65 - Moderate
-
-Location: Location C
-Average: 91.25
-Minimum: 80
-Maximum: 100
-80 - Dangerous
-90 - Dangerous
-100 - Dangerous
-95 - Dangerous
-```
-
-Note: This is a simple educational example using sample environmental readings and illustrative thresholds.
