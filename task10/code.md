@@ -1,171 +1,150 @@
-Here is the complete solution for the **Progressive Water Tariff Analysis** problem, structured according to your requirements without any comments in the Python code.
+## Problem Statement
+
+Design a program to perform a water distribution fairness analysis across multiple areas over several days. The program must ingest daily water demand and supply figures for each area, calculate total shortages, compute shortage percentages, compare distribution levels, and rank the areas to identify the most underserved locations.
 
 ---
 
- 1. Problem Statement
+## Algorithm
 
-Municipal water authorities use progressive slab-based tariff structures to promote conservation and manage water distribution across households.
-
-Given consumption records for multiple households, tiered tariff rate slabs, fixed service fees, and an excessive usage threshold with associated penalties:
-
-* **Objective:** Compute individual water bills using progressive slab calculations, add fixed fees and penalties for excessive consumption, compare household usage patterns, and flag excessive users.
-
----
-
-2. Algorithm
-
-1. **Input Collection:** Receive household consumption values, slab structures (tier limits and corresponding unit rates), fixed service fees, an excessive usage threshold, and a penalty fee.
-2. **Progressive Bill Calculation:** For each household, calculate the cost tier by tier:
-* Allocate consumption sequentially into the defined slabs.
-* Multiply allocated volume by the tier's unit rate and accumulate the base bill.
+1. **Accept** a collection of area records containing area names, daily water demands, and daily water supplies.
+2. **Initialize** an empty list to store computed summaries for each area.
+3. **Iterate** through each area record:
+* Calculate the total demand by summing all daily demands.
+* Calculate the total supply by summing all daily supplies.
+* Calculate the total shortage by summing max(0, demand - supply) for each day.
+* Compute the shortage percentage relative to total demand.
+* Store the metrics for the current area.
 
 
-3. **Fixed Fee & Penalty Application:**
-* Add the standard fixed service fee to the base bill.
-* Check if total consumption exceeds the excessive usage threshold; if so, apply the penalty surcharge.
-
-
-4. **Analysis & Comparison:** Aggregate bill statements and status flags (Normal vs. Excessive) for all households.
-5. **Output Generation:** Display the comprehensive billing and consumption comparison report.
+4. **Sort** the analyzed areas in descending order based on their shortage percentage to prioritize the most underserved areas.
+5. **Return** or display the sorted fairness analysis results.
 
 ---
 
-3. Flowchart (Mermaid)
+## Flowchart
 
 ```mermaid
 flowchart TD
-    Start([Start]) --> Input[Input Households, Slabs, Fixed Fees, & Thresholds]
-    Input --> Loop[For each Household Consumption]
-    Loop --> SlabCalc[Calculate Progressive Costs across Slabs]
-    SlabCalc --> AddFixed[Add Fixed Service Fee]
-    AddFixed --> CheckExcess{Consumption > Excessive Threshold?}
-    CheckExcess -- Yes --> AddPenalty[Add Excessive Usage Penalty Surcharge] --> NextHouse
-    CheckExcess -- No --> NextHouse
-    NextHouse --> MoreHouse{More Households?}
-    MoreHouse -- Yes --> Loop
-    MoreHouse -- No --> Output[Display Progressive Bill & Usage Comparison Report]
-    Output --> End([End])
+    A[Start] --> B[Input Area-wise Demand & Supply Data]
+    B --> C[Initialize Results List]
+    C --> D{More areas to process?}
+    D -- Yes --> E[Extract Demands & Supplies for Current Area]
+    E --> F[Calculate Total Demand & Supply]
+    F --> G[Calculate Shortage per Day & Sum Total Shortage]
+    G --> H[Calculate Shortage Percentage]
+    H --> I[Append Area Summary to Results]
+    I --> D
+    D -- No --> J[Sort Areas by Shortage Percentage Descending]
+    J --> K[Output Underserved Areas Analysis]
+    K --> L[Stop]
 
 ```
 
 ---
 
- 4. Python Source Code
+## Python Source Code
 
 ```python
-def calculate_water_bills(households, slabs, fixed_fee, excessive_threshold, penalty_amount):
-    billing_reports = []
-    
-    for name, consumption in households:
-        remaining = consumption
-        tier_cost = 0.0
+def analyze_water_distribution(areas_data):
+    results = []
+    for area in areas_data:
+        name = area["name"]
+        demands = area["demands"]
+        supplies = area["supplies"]
         
-        for limit, rate in slabs:
-            if remaining <= 0:
-                break
-            slab_usage = min(remaining, limit)
-            tier_cost += slab_usage * rate
-            remaining -= slab_usage
-            
-        if remaining > 0:
-            highest_rate = slabs[-1][1]
-            tier_cost += remaining * highest_rate
-            
-        total_bill = tier_cost + fixed_fee
-        is_excessive = consumption > excessive_threshold
+        total_demand = sum(demands)
+        total_supply = sum(supplies)
+        total_shortage = sum(max(0, d - s) for d, s in zip(demands, supplies))
+        shortage_percentage = (total_shortage / total_demand * 100) if total_demand > 0 else 0
         
-        penalty = 0.0
-        if is_excessive:
-            penalty = penalty_amount
-            total_bill += penalty
-            
-        billing_reports.append({
-            "household": name,
-            "consumption": consumption,
-            "base_cost": round(tier_cost, 2),
-            "fixed_fee": fixed_fee,
-            "penalty": penalty,
-            "total_bill": round(total_bill, 2),
-            "status": "Excessive" if is_excessive else "Normal"
+        results.append({
+            "area": name,
+            "total_demand": total_demand,
+            "total_supply": total_supply,
+            "total_shortage": total_shortage,
+            "shortage_percentage": shortage_percentage
         })
         
-    return billing_reports
-
+    results.sort(key=lambda x: x["shortage_percentage"], reverse=True)
+    return results
 
 if __name__ == "__main__":
-    tariff_slabs = [
-        (15.0, 1.20),   # Tier 1: Up to 15 KL @ $1.20 per KL
-        (15.0, 2.50),   # Tier 2: Next 15 KL (15 to 30 KL) @ $2.50 per KL
-        (float('inf'), 4.50)  # Tier 3: Above 30 KL @ $4.50 per KL
+    sample_areas = [
+        {
+            "name": "Area A",
+            "demands": [1000, 1200, 1100, 1150],
+            "supplies": [800, 900, 1000, 850]
+        },
+        {
+            "name": "Area B",
+            "demands": [1500, 1400, 1600, 1550],
+            "supplies": [1500, 1400, 1500, 1500]
+        },
+        {
+            "name": "Area C",
+            "demands": [800, 850, 900, 820],
+            "supplies": [500, 550, 600, 500]
+        }
     ]
     
-    fixed_service_fee = 15.0
-    excessive_usage_threshold = 40.0
-    penalty_surcharge = 30.0
-    
-    households_data = [
-        ("Greenwood Villa", 12.0),
-        ("Maple Heights", 28.0),
-        ("Oakridge Estate", 45.0),
-        ("Pinecrest Apt", 10.0),
-        ("Sunrise Manor", 55.0)
-    ]
-    
-    reports = calculate_water_bills(
-        households_data, 
-        tariff_slabs, 
-        fixed_service_fee, 
-        excessive_usage_threshold, 
-        penalty_surcharge
-    )
-    
-    print("=== PROGRESSIVE WATER TARIFF ANALYSIS REPORT ===")
-    print("Household      | Usage (KL) | Base Cost | Fixed | Penalty | Total Bill | Status")
-    print("-" * 78)
-    for r in reports:
-        print(f"{r['household']:<14} | {r['consumption']:<10} | ${r['base_cost']:<8} | ${r['fixed_fee']:<5} | ${r['penalty']:<7} | ${r['total_bill']:<10} | {r['status']}")
+    analysis = analyze_water_distribution(sample_areas)
+    import json
+    print(json.dumps(analysis, indent=2))
 
 ```
 
 ---
 
- 5. Sample Input
+## Sample Input
 
-* **Tariff Slabs `(Tier Capacity in KL, Rate per KL)`:**
-* Tier 1: `(15.0, $1.20)`
-* Tier 2: `(15.0, $2.50)`
-* Tier 3: `(Infinite, $4.50)`
-
-
-* **Fixed Service Fee:** `$15.0`
-* **Excessive Usage Threshold:** `40.0 KL`
-* **Penalty Surcharge:** `$30.0`
-* **Households Data `(Household Name, Consumption in KL)`:**
-```python
+```json
 [
-    ("Greenwood Villa", 12.0),
-    ("Maple Heights", 28.0),
-    ("Oakridge Estate", 45.0),  # Exceeds threshold (triggers penalty)
-    ("Pinecrest Apt", 10.0),
-    ("Sunrise Manor", 55.0)     # Exceeds threshold (triggers penalty)
+  {
+    "name": "Area A",
+    "demands": [1000, 1200, 1100, 1150],
+    "supplies": [800, 900, 1000, 850]
+  },
+  {
+    "name": "Area B",
+    "demands": [1500, 1400, 1600, 1550],
+    "supplies": [1500, 1400, 1500, 1500]
+  },
+  {
+    "name": "Area C",
+    "demands": [800, 850, 900, 820],
+    "supplies": [500, 550, 600, 500]
+  }
 ]
 
 ```
 
-
-
 ---
 
- 6. Sample Output
+## Sample Output
 
-```text
-=== PROGRESSIVE WATER TARIFF ANALYSIS REPORT ===
-Household      | Usage (KL) | Base Cost | Fixed | Penalty | Total Bill | Status
-------------------------------------------------------------------------------
-Greenwood Villa | 12.0       | $14.4     | $15.0 | $0.0    | $29.4      | Normal
-Maple Heights   | 28.0       | $52.0     | $15.0 | $0.0    | $67.0      | Normal
-Oakridge Estate | 45.0       | $110.0    | $15.0 | $30.0   | $155.0     | Excessive
-Pinecrest Apt   | 10.0       | $12.0     | $15.0 | $0.0    | $27.0      | Normal
-Sunrise Manor   | 55.0       | $157.5    | $15.0 | $30.0   | $202.5     | Excessive
+```json
+[
+  {
+    "area": "Area C",
+    "total_demand": 3370,
+    "total_supply": 2150,
+    "total_shortage": 1220,
+    "shortage_percentage": 36.19881305637982
+  },
+  {
+    "area": "Area A",
+    "total_demand": 4450,
+    "total_supply": 3550,
+    "total_shortage": 900,
+    "shortage_percentage": 20.224719101123595
+  },
+  {
+    "area": "Area B",
+    "total_demand": 6050,
+    "total_supply": 5900,
+    "total_shortage": 150,
+    "shortage_percentage": 2.4793388429752066
+  }
+]
 
 ```
