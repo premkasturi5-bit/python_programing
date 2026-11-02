@@ -2,7 +2,7 @@ Here is the complete solution for the **Progressive Water Tariff Analysis** prob
 
 ---
 
-## 1. Problem Statement
+ 1. Problem Statement
 
 Municipal water authorities use progressive slab-based tariff structures to promote conservation and manage water distribution across households.
 
@@ -12,7 +12,7 @@ Given consumption records for multiple households, tiered tariff rate slabs, fix
 
 ---
 
-## 2. Algorithm
+2. Algorithm
 
 1. **Input Collection:** Receive household consumption values, slab structures (tier limits and corresponding unit rates), fixed service fees, an excessive usage threshold, and a penalty fee.
 2. **Progressive Bill Calculation:** For each household, calculate the cost tier by tier:
@@ -30,7 +30,7 @@ Given consumption records for multiple households, tiered tariff rate slabs, fix
 
 ---
 
-## 3. Flowchart (Mermaid)
+3. Flowchart (Mermaid)
 
 ```mermaid
 flowchart TD
@@ -50,7 +50,7 @@ flowchart TD
 
 ---
 
-## 4. Python Source Code
+ 4. Python Source Code
 
 ```python
 def calculate_water_bills(households, slabs, fixed_fee, excessive_threshold, penalty_amount):
@@ -129,7 +129,7 @@ if __name__ == "__main__":
 
 ---
 
-## 5. Sample Input
+ 5. Sample Input
 
 * **Tariff Slabs `(Tier Capacity in KL, Rate per KL)`:**
 * Tier 1: `(15.0, $1.20)`
@@ -156,7 +156,7 @@ if __name__ == "__main__":
 
 ---
 
-## 6. Sample Output
+ 6. Sample Output
 
 ```text
 === PROGRESSIVE WATER TARIFF ANALYSIS REPORT ===
