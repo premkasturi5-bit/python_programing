@@ -80,9 +80,10 @@ $$\begin{bmatrix} 50 & 20 & 100 \\ 10 & 40 & 30 \\ 30 & 30 & 50 \end{bmatrix}$$
 
 $$\begin{bmatrix} 30 & 30 & 60 \\ 30 & 30 & 60 \\ 30 & 30 & 60 \end{bmatrix}$$
 
-
+```
 
 ---
+
 
 5. Sample Output
 
