@@ -54,7 +54,7 @@ flowchart TD
 
 
 
- 5. Sample Input
+ 4. Sample Input
 
 * **Teams:** `["Team Alpha", "Team Beta", "Team Gamma", "Team Delta"]`
 * **Matches `(Home Team, Away Team, Home Score, Away Score)`:**
@@ -74,7 +74,7 @@ flowchart TD
 
 ---
 
- 6. Sample Output
+ 5. Sample Output
 
 ```text
 Rank | Team       | P | W | D | L | GF | GA | GD | Pts
